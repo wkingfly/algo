@@ -38,7 +38,8 @@ class Solution(object):
                 if result != target:
                     second_num = num_level2
                     continue
-                if result == target:
+                if result == target and \
+                        nums.index(first_num) < nums.index(second_num):
                     return [nums.index(first_num)+1,
                             nums.index(second_num)+1]
             first_num = num_level1
