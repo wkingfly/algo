@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Given a non-empty array of integers, return the k most frequent elements.
 
@@ -25,15 +26,26 @@ class Solution(object):
                 map_d[str_n] = 1
             else:
                 map_d[str_n] += 1
+        map_d_sort = self.dict_quick_sort(map_d)
+        return [int(x[0]) for x in map_d_sort[:k]]
 
-        def dict_quick_sort(map_d):
-            if not isinstance(map_d, list):
-                map_l = map_d.items()
-            else:
-                map_l = map_d
-            m_elem = map_l[len(map_l)//2+len(map_l)%2]
-            r_elems = [x for x in map_l if x[1] < m_elem[1]]
-            l_elems = [x for x in map_l if x[1] > m_elem[1]]
-            return dict_quick_sort(l_elems)+[m_elem]+dict_quick_sort(r_elems)
+    def dict_quick_sort(self, map_d):
+        if not map_d:
+            return []
+        if not isinstance(map_d, list):
+            map_l = map_d.items()
+        else:
+            map_l = map_d
+        m = map_l[0]
+        m_elems = [x for x in map_l if x[1] == m[1]]
+        r_elems = [x for x in map_l if x[1] < m[1]]
+        l_elems = [x for x in map_l if x[1] > m[1]]
+        return self.dict_quick_sort(
+            l_elems)+m_elems+self.dict_quick_sort(r_elems)
 
-        return [x[0] for x in dict_quick_sort(map_d)[:k]]
+
+if __name__ == '__main__':
+    l = [1, 1, 1, 2, 2, 3, 3, 3]
+    k = 2
+    s = Solution()
+    print s.topKFrequent(l, k)
